@@ -2,11 +2,64 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Hello World!</title>
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+    <div class="base-grid">
+      <div class="click-options-grid">
+        <h4 style="grid-column: span 2; text-align: center;">Click Options</h4>
+        <div class="click-options-content-grid">
+          <h5>Button:</h5>
+          <select>
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+            <option value="middle">Middle</option>
+          </select>
+          <h5>Click Type:</h5>
+          <select>
+            <option value="left">Single</option>
+            <option value="right">Double</option>
+            <option value="middle">Hold</option>
+          </select>
+        </div>
+        <div style="display: grid; grid-template-rows: 1fr 1fr;">
+          <div style="display: grid; grid-template-columns: auto 1fr auto; align-items: center;">
+            <input type="radio">
+            <h5>Repeat:</h5>
+            <input type="number">  
+          </div>
+          <div style="display: grid; grid-template-columns: auto 1fr; align-items: center;">
+            <input type="radio">
+            <h5>Loop Until Stopped</h5>  
+          </div>
+        </div>
+      </div>
+
+      <div class="click-interval-grid">
+        <h4 style="grid-column: span 4;">Interval</h4>
+        <div>
+          <h6>Hours</h6>
+          <input type="number">
+        </div>
+        <div>
+          <h6>Minutes</h6>
+          <input type="number">
+        </div>
+        <div>
+          <h6>Seconds</h6>
+          <input type="number">
+        </div>
+        <div>
+          <h6>Milliseconds</h6>
+          <input type="number">
+        </div>
+      </div>
+
+      <div class="buttons-grid">
+        <button>Start</button>
+        <button>Stop</button>
+        <button style="grid-column: span 2;">Settings</button>
+      </div>  
+    </div>
   </body>
 </html>
