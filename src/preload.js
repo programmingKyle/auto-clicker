@@ -1,6 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
-    startAutoclick: () => ipcRenderer.invoke('start-autoclick'),
+    startAutoclick: (data) => ipcRenderer.invoke('start-autoclick', data),
     stopAutoclick: () => ipcRenderer.invoke('stop-autoclick'),
 });

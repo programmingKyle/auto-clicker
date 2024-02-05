@@ -10,26 +10,26 @@
         <h4 style="grid-column: span 2; text-align: center;">Click Options</h4>
         <div class="click-options-content-grid">
           <h5>Button:</h5>
-          <select>
+          <select id="mouseButtonInput">
             <option value="left">Left</option>
             <option value="right">Right</option>
             <option value="middle">Middle</option>
           </select>
           <h5>Click Type:</h5>
-          <select>
-            <option value="left">Single</option>
-            <option value="right">Double</option>
-            <option value="middle">Hold</option>
+          <select id="typeInput">
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="hold">Hold</option>
           </select>
         </div>
         <div style="display: grid; grid-template-rows: 1fr 1fr;">
           <div style="display: grid; grid-template-columns: auto 1fr auto; align-items: center;">
-            <input type="radio">
+            <input id="repeatSetTimesInput" type="radio">
             <h5>Repeat:</h5>
-            <input type="number">  
+            <input id="repeatTimes" type="number">  
           </div>
           <div style="display: grid; grid-template-columns: auto 1fr; align-items: center;">
-            <input type="radio">
+            <input id="loopInput" type="radio" checked>
             <h5>Loop Until Stopped</h5>  
           </div>
         </div>
@@ -39,19 +39,19 @@
         <h4 style="grid-column: span 4;">Interval</h4>
         <div>
           <h6>Hours</h6>
-          <input type="number">
+          <input id="hoursInput" type="number">
         </div>
         <div>
           <h6>Minutes</h6>
-          <input type="number">
+          <input id="minutesInput" type="number">
         </div>
         <div>
           <h6>Seconds</h6>
-          <input type="number">
+          <input id="secondsInput" type="number">
         </div>
         <div>
           <h6>Milliseconds</h6>
-          <input type="number">
+          <input id="millisecondsInput" type="number">
         </div>
       </div>
 

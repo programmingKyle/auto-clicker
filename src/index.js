@@ -50,16 +50,18 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 let autoClickInterval;
 
-ipcMain.handle('start-autoclick', () => {
-  startAutoClick();
+ipcMain.handle('start-autoclick', (req, data) => {
+  if (!data || !data.input || !data.type || !data.repeat || !data.interval) return;
+
+  startAutoClick(data.interval);
 });
 
 ipcMain.handle('stop-autoclick', () => {
   clearInterval(autoClickInterval);
 });
 
-function startAutoClick(){
-  autoClickInterval = setInterval(leftMouseClick, 1000);
+function startAutoClick(interval){
+  autoClickInterval = setInterval(leftMouseClick, interval);
 }
 
 function leftMouseClick(){
