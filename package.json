@@ -12,13 +12,11 @@
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
-  "author": {
-    "name": "programmingKyle",
-    "email": "155344874+programmingKyle@users.noreply.github.com"
-  },
+  "author": "programmingKyle <155344874+programmingKyle@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "robotjs": "^0.6.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.2.0",
