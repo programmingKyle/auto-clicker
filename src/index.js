@@ -74,42 +74,18 @@ function startAutoClick(buttonClick, interval){
 }
 
 function mouseButtonClick(input, type){
-  switch (input){
-    case 'left':
-      leftMouseButtonClick(type);
-      break;
-    case 'right':
-      rightMouseButtonClick(type);
-      break;
-    case 'middle':
-      middleMouseButtonClick(type);
-      break;
-  }
-}
-
-function leftMouseButtonClick(type){
-  switch(type){
+  switch (type){
     case 'single':
-      robot.mouseClick();
-      break;
+      robot.mouseClick(input);
+      return;
     case 'double':
-      robot.mouseClick();
-      robot.mouseClick();
+      robot.mouseClick(input);
+      robot.mouseClick(input);
       break;
     case 'hold':
       isMouseButtonHold = true;
-      holdMouseButton = 'left';
-      robot.mouseToggle('down', 'left');
+      holdMouseButton = input;
+      robot.mouseToggle('down', input);
       break;
   }
-}
-
-
-
-function rightMouseButtonClick(type){
-  robot.mouseClick('right');
-}
-
-function middleMouseButtonClick(type){
-  robot.mouseClick('middle');
 }
