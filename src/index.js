@@ -7,9 +7,11 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+let mainWindow;
+
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 375,
     height: 350,
     webPreferences: {
@@ -54,9 +56,8 @@ let isMouseButtonHold;
 let holdMouseButton;
 
 ipcMain.handle('start-autoclick', (req, data) => {
-  console.log(data);
   if (!data || !data.input || !data.type || !data.repeat) return;
-  startAutoClick(() => mouseButtonClick(data.input, data.type), data.interval);
+  startAutoClick(() => mouseButtonClick(data.input, data.type, data.repeat), data.interval);
 });
 
 ipcMain.handle('stop-autoclick', () => {
@@ -67,25 +68,41 @@ ipcMain.handle('stop-autoclick', () => {
   clearInterval(autoClickInterval);
 });
 
-function startAutoClick(buttonClick, interval){
+function startAutoClick(buttonClick, interval, repeat){
   if (!isMouseButtonHold){
-    autoClickInterval = setInterval(buttonClick, interval);
+    autoClickInterval = setInterval(buttonClick, interval, repeat);
   }
 }
 
-function mouseButtonClick(input, type){
-  switch (type){
-    case 'single':
-      robot.mouseClick(input);
-      return;
-    case 'double':
-      robot.mouseClick(input);
-      robot.mouseClick(input);
-      break;
-    case 'hold':
-      isMouseButtonHold = true;
-      holdMouseButton = input;
-      robot.mouseToggle('down', input);
-      break;
+let currentNumber = 0;
+
+let isProcessing = false;
+
+function mouseButtonClick(input, type, repeat) {
+  if (!isProcessing && repeat !== 'loop' && currentNumber < repeat) {
+    isProcessing = true; // Set the flag to indicate that the function is processing
+    currentNumber++;
+    console.log(currentNumber);
+    
+    switch (type) {
+      case 'single':
+        robot.mouseClick(input);
+        break;
+      case 'double':
+        robot.mouseClick(input);
+        robot.mouseClick(input);
+        break;
+      case 'hold':
+        isMouseButtonHold = true;
+        holdMouseButton = input;
+        robot.mouseToggle('down', input);
+        break;
+    }  
+    
+    isProcessing = false; // Reset the flag when the function is done processing
+  } else if (currentNumber >= repeat) {
+    clearInterval(autoClickInterval);
+    currentNumber = 0;
+    mainWindow.webContents.send('autoclick-stopped', { success: true });
   }
 }

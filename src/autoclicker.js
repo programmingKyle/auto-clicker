@@ -12,6 +12,8 @@ const minutesInput_el = document.getElementById('minutesInput');
 const secondsInput_el = document.getElementById('secondsInput');
 const millisecondsInput_el = document.getElementById('millisecondsInput');
 
+let running = false;
+
 function calcIntervalTime(){
     const hours = hoursInput_el.value === '0' ? 0 : hoursInput_el.value * 3600000;
     const minutes = minutesInput_el.value === '0' ? 0 : minutesInput_el.value * 60000;
@@ -22,17 +24,22 @@ function calcIntervalTime(){
 }
 
 startButton_el.addEventListener('click', async () => {
-    const interval = calcIntervalTime();
-    await api.startAutoclick({
-        input: mouseButtonInput_el.value,
-        type: typeInput_el.value,
-        repeat: loopInput_el.checked ? 'loop' : repeatTimes_el.value,
-        interval,
-    });
+    console.log(running);
+    if (!running){
+        const interval = calcIntervalTime();
+        await api.startAutoclick({
+            input: mouseButtonInput_el.value,
+            type: typeInput_el.value,
+            repeat: loopInput_el.checked ? 'loop' : repeatTimes_el.value,
+            interval,
+        });
+        running = true;    
+    }
 });
 
 stopButton_el.addEventListener('click', () => {
     api.stopAutoclick();
+    running = false;
 });
 
 repeatSetTimesInput_el.addEventListener('click', () => {
@@ -46,3 +53,11 @@ loopInput_el.addEventListener('click', () => {
         repeatSetTimesInput_el.checked = false;
     }
 });
+
+api.onAutoclickStopped((data) => {
+    if (data.success){
+        running = false;
+    } else {
+        console.error('Failed');
+    }
+})
