@@ -50,37 +50,66 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 let autoClickInterval;
 
+let isMouseButtonHold;
+let holdMouseButton;
+
 ipcMain.handle('start-autoclick', (req, data) => {
   console.log(data);
   if (!data || !data.input || !data.type || !data.repeat) return;
-  if (data.input === 'left') {
-    startAutoClick(leftMouseClick, data.interval);
-    console.log('Left Mouse Button');
-  } else if (data.input === 'right') {
-    startAutoClick(rightMouseButtonClick, data.interval);
-    console.log('Right Mouse Button');
-  } else if (data.input === 'middle') {
-    startAutoClick(middleMouseButtonClick, data.interval);
-    console.log('Middle Mouse Button');
-  }
+  startAutoClick(() => mouseButtonClick(data.input, data.type), data.interval);
 });
 
 ipcMain.handle('stop-autoclick', () => {
+  if (isMouseButtonHold === true){
+    robot.mouseToggle('up', holdMouseButton);
+    isMouseButtonHold = false;
+  }
   clearInterval(autoClickInterval);
 });
 
 function startAutoClick(buttonClick, interval){
-  autoClickInterval = setInterval(buttonClick, interval);
+  if (!isMouseButtonHold){
+    autoClickInterval = setInterval(buttonClick, interval);
+  }
 }
 
-function leftMouseClick(){
-  robot.mouseClick();
+function mouseButtonClick(input, type){
+  switch (input){
+    case 'left':
+      leftMouseButtonClick(type);
+      break;
+    case 'right':
+      rightMouseButtonClick(type);
+      break;
+    case 'middle':
+      middleMouseButtonClick(type);
+      break;
+  }
 }
 
-function rightMouseButtonClick(){
+function leftMouseButtonClick(type){
+  switch(type){
+    case 'single':
+      robot.mouseClick();
+      break;
+    case 'double':
+      robot.mouseClick();
+      robot.mouseClick();
+      break;
+    case 'hold':
+      isMouseButtonHold = true;
+      holdMouseButton = 'left';
+      robot.mouseToggle('down', 'left');
+      break;
+  }
+}
+
+
+
+function rightMouseButtonClick(type){
   robot.mouseClick('right');
 }
 
-function middleMouseButtonClick(){
+function middleMouseButtonClick(type){
   robot.mouseClick('middle');
 }
