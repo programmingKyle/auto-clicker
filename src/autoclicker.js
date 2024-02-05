@@ -27,7 +27,7 @@ startButton_el.addEventListener('click', async () => {
         input: mouseButtonInput_el.value,
         type: typeInput_el.value,
         repeat: loopInput_el.checked ? 'loop' : repeatTimes_el.value,
-        interval
+        interval,
     });
 });
 

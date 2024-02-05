@@ -51,19 +51,36 @@ app.on('activate', () => {
 let autoClickInterval;
 
 ipcMain.handle('start-autoclick', (req, data) => {
-  if (!data || !data.input || !data.type || !data.repeat || !data.interval) return;
-
-  startAutoClick(data.interval);
+  console.log(data);
+  if (!data || !data.input || !data.type || !data.repeat) return;
+  if (data.input === 'left') {
+    startAutoClick(leftMouseClick, data.interval);
+    console.log('Left Mouse Button');
+  } else if (data.input === 'right') {
+    startAutoClick(rightMouseButtonClick, data.interval);
+    console.log('Right Mouse Button');
+  } else if (data.input === 'middle') {
+    startAutoClick(middleMouseButtonClick, data.interval);
+    console.log('Middle Mouse Button');
+  }
 });
 
 ipcMain.handle('stop-autoclick', () => {
   clearInterval(autoClickInterval);
 });
 
-function startAutoClick(interval){
-  autoClickInterval = setInterval(leftMouseClick, interval);
+function startAutoClick(buttonClick, interval){
+  autoClickInterval = setInterval(buttonClick, interval);
 }
 
 function leftMouseClick(){
   robot.mouseClick();
+}
+
+function rightMouseButtonClick(){
+  robot.mouseClick('right');
+}
+
+function middleMouseButtonClick(){
+  robot.mouseClick('middle');
 }
