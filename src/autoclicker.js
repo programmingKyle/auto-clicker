@@ -24,7 +24,10 @@ function calcIntervalTime(){
 }
 
 startButton_el.addEventListener('click', async () => {
-    console.log(running);
+    await startAutoClicker();
+});
+
+async function startAutoClicker(){
     if (!running){
         const interval = calcIntervalTime();
         await api.startAutoclick({
@@ -35,7 +38,7 @@ startButton_el.addEventListener('click', async () => {
         });
         running = true;    
     }
-});
+}
 
 stopButton_el.addEventListener('click', () => {
     api.stopAutoclick();
@@ -59,5 +62,32 @@ api.onAutoclickStopped((data) => {
         running = false;
     } else {
         console.error('Failed');
+        api.stopAutoclick();
+        running = false;    
     }
 })
+
+api.backgroundHotkeys(async (data) => {
+    if (data.start){
+        console.log('Start Time');
+        await startAutoClicker();
+    } else {
+        console.log('Stop Time');
+        api.stopAutoclick();
+        running = false;
+    }
+})
+
+
+/*
+document.addEventListener('keydown', async (e) => {
+    if (e.key === 'F9' && !running){
+        await startAutoClicker();
+        console.log('start');
+    } else if (e.key === 'F9' && running){
+        api.stopAutoclick();
+        running = false;
+        console.log('stop');
+    }
+});
+*/

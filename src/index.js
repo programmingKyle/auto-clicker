@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
 const path = require('path');
 const robot = require('robotjs');
 
@@ -8,6 +8,7 @@ if (require('electron-squirrel-startup')) {
 }
 
 let mainWindow;
+let running = false;
 
 const createWindow = () => {
   // Create the browser window.
@@ -48,6 +49,43 @@ app.on('activate', () => {
   }
 });
 
+app.whenReady().then(() => {
+  // Register a global shortcut for F9
+  globalShortcut.register('F9', () => {
+    // Check the running state and perform actions accordingly
+    if (!running) {
+      mainWindow.webContents.send('background-hotkeys', { start: true });
+      console.log('start');
+    } else {
+      mainWindow.webContents.send('background-hotkeys', { start: false });
+      running = false;
+      console.log('stop');
+    }
+  });
+
+  // Check for F9 shortcut even when the app is in the background
+  app.on('browser-window-blur', () => {
+    globalShortcut.register('F9', () => {
+      if (!running) {
+        mainWindow.webContents.send('background-hotkeys', { start: true });
+        console.log('start');
+      } else {
+        mainWindow.webContents.send('background-hotkeys', { start: false });
+        running = false;
+        console.log('stop');
+      }
+    });
+  });
+
+  // Unregister the global shortcut when the app is about to quit
+  app.on('will-quit', () => {
+    // Unregister the shortcut
+    globalShortcut.unregister('F9');
+    // Unregister the 'browser-window-blur' event
+    app.removeAllListeners('browser-window-blur');
+  });
+});
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 let autoClickInterval;
@@ -69,6 +107,7 @@ ipcMain.handle('stop-autoclick', () => {
 });
 
 function startAutoClick(buttonClick, interval, repeat){
+  running = true;
   if (!isMouseButtonHold){
     autoClickInterval = setInterval(buttonClick, interval, repeat);
   }
@@ -76,33 +115,42 @@ function startAutoClick(buttonClick, interval, repeat){
 
 let currentNumber = 0;
 
-let isProcessing = false;
-
 function mouseButtonClick(input, type, repeat) {
-  if (!isProcessing && repeat !== 'loop' && currentNumber < repeat) {
-    isProcessing = true; // Set the flag to indicate that the function is processing
-    currentNumber++;
-    console.log(currentNumber);
-    
-    switch (type) {
-      case 'single':
-        robot.mouseClick(input);
-        break;
-      case 'double':
-        robot.mouseClick(input);
-        robot.mouseClick(input);
-        break;
-      case 'hold':
-        isMouseButtonHold = true;
-        holdMouseButton = input;
-        robot.mouseToggle('down', input);
-        break;
-    }  
-    
-    isProcessing = false; // Reset the flag when the function is done processing
-  } else if (currentNumber >= repeat) {
-    clearInterval(autoClickInterval);
-    currentNumber = 0;
-    mainWindow.webContents.send('autoclick-stopped', { success: true });
+  console.time('test');
+  switch (repeat){
+    case 'loop':
+      isProcessing = true;
+      mouseButtonTypeInputs(input, type);  
+      break;
+    default:
+      if (currentNumber < repeat){
+        currentNumber++;
+        console.log(currentNumber);
+        mouseButtonTypeInputs(input, type);
+      } else if (currentNumber >= repeat) {
+        clearInterval(autoClickInterval);
+        currentNumber = 0;
+        mainWindow.webContents.send('autoclick-stopped', { success: true });
+      }
+      break;
   }
+  console.timeEnd('test');
+}
+
+
+function mouseButtonTypeInputs(input, type){
+  switch (type) {
+    case 'single':
+      robot.mouseClick(input);
+      break;
+    case 'double':
+      robot.mouseClick(input);
+      robot.mouseClick(input);
+      break;
+    case 'hold':
+      isMouseButtonHold = true;
+      holdMouseButton = input;
+      robot.mouseToggle('down', input);
+      break;
+  }  
 }
