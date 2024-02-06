@@ -65,29 +65,13 @@ api.onAutoclickStopped((data) => {
         api.stopAutoclick();
         running = false;    
     }
-})
+});
 
 api.backgroundHotkeys(async (data) => {
     if (data.start){
-        console.log('Start Time');
         await startAutoClicker();
     } else {
-        console.log('Stop Time');
         api.stopAutoclick();
         running = false;
-    }
-})
-
-
-/*
-document.addEventListener('keydown', async (e) => {
-    if (e.key === 'F9' && !running){
-        await startAutoClicker();
-        console.log('start');
-    } else if (e.key === 'F9' && running){
-        api.stopAutoclick();
-        running = false;
-        console.log('stop');
     }
 });
-*/

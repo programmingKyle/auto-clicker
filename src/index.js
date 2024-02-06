@@ -54,12 +54,11 @@ app.whenReady().then(() => {
   globalShortcut.register('F9', () => {
     // Check the running state and perform actions accordingly
     if (!running) {
+      running = true;
       mainWindow.webContents.send('background-hotkeys', { start: true });
-      console.log('start');
     } else {
       mainWindow.webContents.send('background-hotkeys', { start: false });
       running = false;
-      console.log('stop');
     }
   });
 
@@ -67,12 +66,11 @@ app.whenReady().then(() => {
   app.on('browser-window-blur', () => {
     globalShortcut.register('F9', () => {
       if (!running) {
+        running = true;
         mainWindow.webContents.send('background-hotkeys', { start: true });
-        console.log('start');
       } else {
         mainWindow.webContents.send('background-hotkeys', { start: false });
         running = false;
-        console.log('stop');
       }
     });
   });
@@ -95,6 +93,7 @@ let holdMouseButton;
 
 ipcMain.handle('start-autoclick', (req, data) => {
   if (!data || !data.input || !data.type || !data.repeat) return;
+  mouseButtonClick(data.input, data.type, data.repeat);
   startAutoClick(() => mouseButtonClick(data.input, data.type, data.repeat), data.interval);
 });
 
@@ -116,25 +115,28 @@ function startAutoClick(buttonClick, interval, repeat){
 let currentNumber = 0;
 
 function mouseButtonClick(input, type, repeat) {
-  console.time('test');
   switch (repeat){
     case 'loop':
       isProcessing = true;
       mouseButtonTypeInputs(input, type);  
       break;
     default:
-      if (currentNumber < repeat){
+      const repeatCount = parseInt(repeat);
+      if (currentNumber < repeatCount){
         currentNumber++;
-        console.log(currentNumber);
         mouseButtonTypeInputs(input, type);
-      } else if (currentNumber >= repeat) {
+      } else if (currentNumber === repeatCount) {
+        if (isMouseButtonHold === true){
+          robot.mouseToggle('up', holdMouseButton);
+          isMouseButtonHold = false;
+        }
         clearInterval(autoClickInterval);
         currentNumber = 0;
+        running = false;
         mainWindow.webContents.send('autoclick-stopped', { success: true });
       }
       break;
   }
-  console.timeEnd('test');
 }
 
 
