@@ -13,8 +13,8 @@ let running = false;
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 375,
-    height: 350,
+    width: 425,
+    height: 425,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -92,6 +92,7 @@ let isMouseButtonHold;
 let holdMouseButton;
 
 ipcMain.handle('start-autoclick', (req, data) => {
+  console.log(data);
   if (!data || !data.input || !data.type || !data.repeat) return;
   mouseButtonClick(data.input, data.type, data.repeat);
   startAutoClick(() => mouseButtonClick(data.input, data.type, data.repeat), data.interval);

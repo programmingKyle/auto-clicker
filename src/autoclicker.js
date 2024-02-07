@@ -12,7 +12,20 @@ const minutesInput_el = document.getElementById('minutesInput');
 const secondsInput_el = document.getElementById('secondsInput');
 const millisecondsInput_el = document.getElementById('millisecondsInput');
 
+const delayCheckbox_el = document.getElementById('delayCheckbox');
+const delayAmount_el = document.getElementById('delayAmount');
+
 let running = false;
+
+function toggleButtons(){
+    if (startButton_el.style.display !== 'none'){
+        startButton_el.style.display = 'none';
+        stopButton_el.style.display = 'grid';
+    } else {
+        startButton_el.style.display = 'grid';
+        stopButton_el.style.display = 'none';
+    }
+}
 
 function calcIntervalTime(){
     const hours = hoursInput_el.value === '0' ? 0 : hoursInput_el.value * 3600000;
@@ -24,12 +37,15 @@ function calcIntervalTime(){
 }
 
 startButton_el.addEventListener('click', async () => {
-    await startAutoClicker();
+    setTimeout(() => {
+        startAutoClicker();        
+    }, delayCheckbox_el.checked ? delayAmount_el.value : 1000);
 });
 
 async function startAutoClicker(){
     if (!running){
         const interval = calcIntervalTime();
+        toggleButtons();
         await api.startAutoclick({
             input: mouseButtonInput_el.value,
             type: typeInput_el.value,
@@ -42,10 +58,12 @@ async function startAutoClicker(){
 
 stopButton_el.addEventListener('click', () => {
     api.stopAutoclick();
+    toggleButtons();
     running = false;
 });
 
 repeatSetTimesInput_el.addEventListener('click', () => {
+    console.log(loopInput_el);
     if (loopInput_el.checked === true){
         loopInput_el.checked = false;
     }
@@ -58,6 +76,7 @@ loopInput_el.addEventListener('click', () => {
 });
 
 api.onAutoclickStopped((data) => {
+    toggleButtons();
     if (data.success){
         running = false;
     } else {
@@ -69,8 +88,11 @@ api.onAutoclickStopped((data) => {
 
 api.backgroundHotkeys(async (data) => {
     if (data.start){
-        await startAutoClicker();
+        setTimeout(() => {
+            startAutoClicker();            
+        }, delayCheckbox_el.checked ? delayAmount_el.value : 0);
     } else {
+        toggleButtons();
         api.stopAutoclick();
         running = false;
     }

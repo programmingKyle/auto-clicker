@@ -9,21 +9,35 @@
       <div class="click-options-grid">
         <h4 style="grid-column: span 2; text-align: center;">Click Options</h4>
         <div class="click-options-content-grid">
-          <h5>Button:</h5>
-          <select id="mouseButtonInput">
-            <option value="left">Left</option>
-            <option value="right">Right</option>
-            <option value="middle">Middle</option>
-          </select>
-          <h5>Click Type:</h5>
-          <select id="typeInput">
-            <option value="single">Single</option>
-            <option value="double">Double</option>
-            <option value="hold">Hold</option>
-          </select>
+          <div style="display: grid; grid-template-columns: 1fr auto;">
+            <h5>Button:</h5>
+            <select id="mouseButtonInput">
+              <option value="left">Left</option>
+              <option value="right">Right</option>
+              <option value="middle">Middle</option>
+            </select>  
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr auto;">
+            <h5>Click Type:</h5>
+            <select id="typeInput">
+              <option value="single">Single</option>
+              <option value="double">Double</option>
+              <option value="hold">Hold</option>
+            </select>  
+          </div>
+          <div style="display: grid; grid-template-columns: auto 1fr; align-items: center;">
+            <input id="alwaysOnTopCheckbox" type="checkbox">
+            <h5>Always On Top</h5>  
+          </div>
         </div>
-        <div style="display: grid; grid-template-rows: 1fr 1fr;">
-          <div style="display: grid; grid-template-columns: auto 1fr auto; align-items: center;">
+        <div class="click-options-content-grid">
+          <div style="display: grid; grid-template-columns: auto 1fr 1fr; align-items: center;">
+            <input id="delayCheckbox" type="checkbox">
+            <h5>Start Delay:</h5>
+            <input id="delayAmount" type="number" value="1000">
+          </div>
+
+          <div style="display: grid; grid-template-columns: auto 1fr 1fr; align-items: center;">
             <input id="repeatSetTimesInput" type="radio">
             <h5>Repeat:</h5>
             <input id="repeatTimes" type="number" value="1" maxlength="6">
@@ -57,8 +71,8 @@
 
       <div class="buttons-grid">
         <button id="startButton">Start [F9]</button>
-        <button id="stopButton">Stop [F9]</button>
-        <button style="grid-column: span 2;">Settings</button>
+        <button id="stopButton" style="display: none">Stop [F9]</button>
+        <button>Settings</button>
       </div>  
     </div>
   </body>

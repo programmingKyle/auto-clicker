@@ -37,17 +37,21 @@ input {
 
 .buttons-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   grid-gap: 5px;
   margin-top: 10px;
+}
+
+.buttons-grid button {
+  display: grid;
 }
 
 button {
   background-color: #313131;
   border-style: none;
   color: white;
-  padding: 10px 0px;
   border-radius: 10px;
+  padding: 20px 0px;
 }
 
 .input-error {
@@ -73,7 +77,7 @@ select {
 
 .base-grid {
   display: grid;
-  grid-template-rows: 1fr auto 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   overflow: hidden;
   grid-gap: 5px;
   height: 100%;
@@ -99,10 +103,14 @@ select {
 
 .click-options-content-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 5px;
+  grid-template-rows: 1fr 1fr 1fr;
   align-items: center;
   padding: 5px;
+  grid-gap: 5px;
+}
+
+.click-options-content-grid div {
+  align-items: center;
 }
 
 .container {
