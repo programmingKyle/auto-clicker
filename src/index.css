@@ -39,12 +39,8 @@ input {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 5px;
-  margin-top: 10px;
 }
 
-.buttons-grid button {
-  display: grid;
-}
 
 button {
   background-color: #313131;
