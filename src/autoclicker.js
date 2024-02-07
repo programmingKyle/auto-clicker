@@ -14,6 +14,7 @@ const millisecondsInput_el = document.getElementById('millisecondsInput');
 
 const delayCheckbox_el = document.getElementById('delayCheckbox');
 const delayAmount_el = document.getElementById('delayAmount');
+const alwaysOnTopCheckbox_el = document.getElementById('alwaysOnTopCheckbox');
 
 let running = false;
 
@@ -63,7 +64,6 @@ stopButton_el.addEventListener('click', () => {
 });
 
 repeatSetTimesInput_el.addEventListener('click', () => {
-    console.log(loopInput_el);
     if (loopInput_el.checked === true){
         loopInput_el.checked = false;
     }
@@ -95,5 +95,13 @@ api.backgroundHotkeys(async (data) => {
         toggleButtons();
         api.stopAutoclick();
         running = false;
+    }
+});
+
+alwaysOnTopCheckbox_el.addEventListener('click', () => {
+    if (alwaysOnTopCheckbox_el.checked){
+        api.alwaysOnTopHandler({request: true});
+    } else {
+        api.alwaysOnTopHandler({request: false});
     }
 });

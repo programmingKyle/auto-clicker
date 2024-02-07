@@ -92,7 +92,6 @@ let isMouseButtonHold;
 let holdMouseButton;
 
 ipcMain.handle('start-autoclick', (req, data) => {
-  console.log(data);
   if (!data || !data.input || !data.type || !data.repeat) return;
   mouseButtonClick(data.input, data.type, data.repeat);
   startAutoClick(() => mouseButtonClick(data.input, data.type, data.repeat), data.interval);
@@ -157,3 +156,8 @@ function mouseButtonTypeInputs(input, type){
       break;
   }  
 }
+
+ipcMain.handle('always-on-top-handler', (req, data) => {
+  if (!data) return;
+  mainWindow.setAlwaysOnTop(data.request);
+});
