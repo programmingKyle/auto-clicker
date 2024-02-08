@@ -1,0 +1,16 @@
+{
+  "button": "left",
+  "startDelayEnabled": "false",
+  "startDelayTime": "1000",
+  "clickType": "single",
+  "repeatEnabled": "false",
+  "repeatCount": "1",
+  "alwaysOnTop": "false",
+  "loop": "true",
+  "interval": {
+    "hours": "0",
+    "minutes": "0",
+    "seconds": "0",
+    "milliseconds": "0"
+  }
+}

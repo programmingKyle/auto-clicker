@@ -18,6 +18,7 @@ const alwaysOnTopCheckbox_el = document.getElementById('alwaysOnTopCheckbox');
 
 let running = false;
 
+
 function toggleButtons(){
     if (startButton_el.style.display !== 'none'){
         startButton_el.style.display = 'none';

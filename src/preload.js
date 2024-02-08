@@ -6,4 +6,6 @@ contextBridge.exposeInMainWorld('api', {
     alwaysOnTopHandler: (data) => ipcRenderer.invoke('always-on-top-handler', data),
     onAutoclickStopped: (callback) => ipcRenderer.on('autoclick-stopped', (event, data) => callback(data)),
     backgroundHotkeys: (callback) => ipcRenderer.on('background-hotkeys', (event, data) => callback(data)),
+
+    saveSettings: (data) => ipcRenderer.invoke('save-settings', data),
 });
