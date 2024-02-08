@@ -18,6 +18,26 @@ const alwaysOnTopCheckbox_el = document.getElementById('alwaysOnTopCheckbox');
 
 let running = false;
 
+document.addEventListener('DOMContentLoaded', async () => {
+    const optionsResult = await api.optionsHandler({request: 'get'});
+    populateOptions(optionsResult);
+})
+
+function populateOptions(options){
+    mouseButtonInput_el.value = options.button;
+    delayCheckbox_el.checked = options.startDelayEnabled;
+    delayAmount_el.value = options.startDelayTime;
+    typeInput_el.value = options.clickType;
+    repeatSetTimesInput_el.checked = options.repeatEnabled;
+    repeatTimes_el.value = options.repeatCount;
+    alwaysOnTopCheckbox_el.checked = options.alwaysOnTop;
+    loopInput_el.value = options.loop;
+
+    hoursInput_el.value = options.interval.hours;
+    minutesInput_el.value = options.interval.minutes;
+    secondsInput_el.value = options.interval.seconds;
+    millisecondsInput_el.value = options.interval.milliseconds;
+}
 
 function toggleButtons(){
     if (startButton_el.style.display !== 'none'){

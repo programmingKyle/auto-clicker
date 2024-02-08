@@ -7,5 +7,5 @@ contextBridge.exposeInMainWorld('api', {
     onAutoclickStopped: (callback) => ipcRenderer.on('autoclick-stopped', (event, data) => callback(data)),
     backgroundHotkeys: (callback) => ipcRenderer.on('background-hotkeys', (event, data) => callback(data)),
 
-    saveSettings: (data) => ipcRenderer.invoke('save-settings', data),
+    optionsHandler: (data) => ipcRenderer.invoke('options-handler', data),
 });

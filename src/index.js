@@ -10,6 +10,9 @@ if (require('electron-squirrel-startup')) {
 
 let mainWindow;
 let running = false;
+let autoClickInterval;
+let isMouseButtonHold;
+let holdMouseButton;
 
 const createWindow = () => {
   // Create the browser window.
@@ -32,7 +35,7 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  checkSettings();
+  checkOptions();
   createWindow();
 });
 
@@ -53,11 +56,11 @@ app.on('activate', () => {
   }
 });
 
-function checkSettings(){
-  if (fs.existsSync('settings.json')){
+function checkOptions(){
+  if (fs.existsSync('options.json')){
     return;
   } else {
-    createDefaultSettings();
+    createDefaultOptions();
   }
 }
 
@@ -98,16 +101,16 @@ app.whenReady().then(() => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-function createDefaultSettings() {
+function createDefaultOptions() {
   const settings = {
     button: 'left',
-    startDelayEnabled: 'false',
+    startDelayEnabled: false,
     startDelayTime: '1000',
     clickType: 'single',
-    repeatEnabled: 'false',
+    repeatEnabled: false,
     repeatCount: '1',
-    alwaysOnTop: 'false',
-    loop: 'true',
+    alwaysOnTop: false,
+    loop: true,
 
     interval: {
       hours: '0',
@@ -117,21 +120,11 @@ function createDefaultSettings() {
     },
   };
 
-  // Convert JavaScript object to JSON string
   const jsonString = JSON.stringify(settings, null, 2);
-
-  // Write JSON string to a file (adjust the path as needed)
-  fs.writeFileSync('settings.json', jsonString);
+  fs.writeFileSync('options.json', jsonString);
 
   console.log('Default settings file created successfully.');
 }
-
-
-
-let autoClickInterval;
-
-let isMouseButtonHold;
-let holdMouseButton;
 
 ipcMain.handle('start-autoclick', (req, data) => {
   if (!data || !data.input || !data.type || !data.repeat) return;
@@ -181,7 +174,6 @@ function mouseButtonClick(input, type, repeat) {
   }
 }
 
-
 function mouseButtonTypeInputs(input, type){
   switch (type) {
     case 'single':
@@ -204,3 +196,28 @@ ipcMain.handle('always-on-top-handler', (req, data) => {
   mainWindow.setAlwaysOnTop(data.request);
 });
 
+
+
+
+ipcMain.handle('options-handler', (req, data) => {
+  if (!data || !data.request) return;
+  switch (data.request){
+    case 'get':
+      const results = getOptions();
+      return results;
+    case 'save':
+      break;
+  }
+});
+
+function getOptions() {
+  const fileName = 'options.json';
+  try {
+    const fileContents = fs.readFileSync(fileName, 'utf-8');
+    const options = JSON.parse(fileContents);
+    return options;
+  } catch (error) {
+    console.error('Error reading settings file:', error.message);
+    return null;
+  }
+}
