@@ -103,22 +103,20 @@ app.whenReady().then(() => {
 // code. You can also put them in separate files and import them here.
 function createDefaultOptions() {
   const settings = {
-    button: 'left',
-    startDelayEnabled: false,
-    startDelayTime: '1000',
-    clickType: 'single',
-    repeatEnabled: false,
-    repeatCount: '1',
-    alwaysOnTop: false,
-    loop: true,
+    mouseButtonInput: 'left',
+    delayCheckbox: false,
+    delayAmount: '1000',
+    typeInput: 'single',
+    repeatSetTimesInput: false,
+    repeatTimes: '1',
+    alwaysOnTopCheckbox: false,
+    loopInput: true,
 
-    interval: {
-      hours: '0',
-      minutes: '0',
-      seconds: '0',
-      milliseconds: '0',
-    },
-  };
+    hoursInput: '0',
+    minutesInput: '0',
+    secondsInput: '0',
+    millisecondsInput: '0',
+};
 
   const jsonString = JSON.stringify(settings, null, 2);
   fs.writeFileSync('options.json', jsonString);
@@ -206,6 +204,7 @@ ipcMain.handle('options-handler', (req, data) => {
       const results = getOptions();
       return results;
     case 'save':
+      saveOptions(data.inputId, data.inputValue);
       break;
   }
 });
@@ -220,4 +219,33 @@ function getOptions() {
     console.error('Error reading settings file:', error.message);
     return null;
   }
+}
+
+function saveOptionsToFile(options) {
+  const fileName = 'options.json';
+  try {
+    const jsonString = JSON.stringify(options, null, 2);
+    fs.writeFileSync(fileName, jsonString);
+  } catch (error) {
+    console.error('Error saving options to file:', error.message);
+  }
+}
+
+function saveOptions(input, value) {
+  const options = getOptions();
+
+  if (!options) {
+    return;
+  }
+
+  if (input === 'loopInput') {
+    options.repeatSetTimesInput = !value;
+    options.loopInput = value;
+  } else if (input === 'repeatSetTimesInput') {
+    options.loopInput = !value;
+    options.repeatSetTimesInput = value;
+  } else {
+    options[input] = value;
+  }
+  saveOptionsToFile(options);
 }

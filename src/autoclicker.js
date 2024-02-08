@@ -24,20 +24,46 @@ document.addEventListener('DOMContentLoaded', async () => {
 })
 
 function populateOptions(options){
-    mouseButtonInput_el.value = options.button;
-    delayCheckbox_el.checked = options.startDelayEnabled;
-    delayAmount_el.value = options.startDelayTime;
-    typeInput_el.value = options.clickType;
-    repeatSetTimesInput_el.checked = options.repeatEnabled;
-    repeatTimes_el.value = options.repeatCount;
-    alwaysOnTopCheckbox_el.checked = options.alwaysOnTop;
-    loopInput_el.value = options.loop;
+    mouseButtonInput_el.value = options.mouseButtonInput;
+    delayCheckbox_el.checked = options.delayCheckbox;
+    delayAmount_el.value = options.delayAmount;
+    typeInput_el.value = options.typeInput;
+    repeatSetTimesInput_el.checked = options.repeatSetTimesInput;
+    repeatTimes_el.value = options.repeatTimes;
+    alwaysOnTopCheckbox_el.checked = options.alwaysOnTopCheckbox;
+    loopInput_el.checked = options.loopInput;
 
-    hoursInput_el.value = options.interval.hours;
-    minutesInput_el.value = options.interval.minutes;
-    secondsInput_el.value = options.interval.seconds;
-    millisecondsInput_el.value = options.interval.milliseconds;
+    hoursInput_el.value = options.hoursInput;
+    minutesInput_el.value = options.minutesInput;
+    secondsInput_el.value = options.secondsInput;
+    millisecondsInput_el.value = options.millisecondsInput;
 }
+
+const inputIds = [
+    mouseButtonInput_el, delayCheckbox_el, delayAmount_el,
+    typeInput_el, repeatSetTimesInput_el, repeatTimes_el,
+    alwaysOnTopCheckbox_el, loopInput_el, hoursInput_el,
+    minutesInput_el, secondsInput_el, millisecondsInput_el,
+];
+  
+inputIds.forEach((element) => {
+    if (element) {
+        element.addEventListener('change', () => {
+        handleInputChange(element);
+        });
+    }
+});
+
+function handleInputChange(inputElement) {
+    console.log(inputElement.checked);
+    const inputId = inputElement.id;
+    const inputValue = (inputElement.type === 'checkbox' || 
+    inputElement.type === 'radio') ? inputElement.checked : inputElement.value;
+    api.optionsHandler({ request: 'save', inputId, inputValue });
+}
+
+  
+
 
 function toggleButtons(){
     if (startButton_el.style.display !== 'none'){
