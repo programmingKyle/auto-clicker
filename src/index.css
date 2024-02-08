@@ -1,8 +1,9 @@
 body {
-  margin: 10px;
-  height: calc(100vh - 20px);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background-color: #1B1B1B;
+  overflow: hidden;
+  height: 100vh;
+  margin: 0px;
 }
 
 div {
@@ -37,10 +38,8 @@ input {
 
 .buttons-grid {
   display: grid;
-  grid-template-columns: 1fr;
   grid-gap: 5px;
 }
-
 
 button {
   background-color: #313131;
@@ -73,10 +72,42 @@ select {
 
 .base-grid {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  overflow: hidden;
   grid-gap: 5px;
   height: 100%;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  margin: 10px;
+  grid-gap: 10px;
+  overflow: hidden;
+}
+
+.left-side-grid {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-gap: 5px;
+}
+
+.right-side-grid {
+  display: grid;
+  text-align: center;
+  grid-template-rows: auto 1fr;
+  grid-gap: 5px;
+  overflow: hidden;
+}
+
+.profiles-grid {
+  display: grid;
+  align-items: start;
+  grid-gap: 2px;
+  align-content: start;
+  overflow: auto;
+}
+
+.profiles-button {
+  margin-right: 5px;
 }
 
 .click-interval-grid {
@@ -88,7 +119,6 @@ select {
 
 .click-interval-grid div {
   display: grid;
-  grid-gap: 5px;
 }
 
 .click-options-grid {
@@ -183,6 +213,7 @@ h1,h2,h3,h4,h5,h6 {
   background-color: transparent;
   color: #7C90DB;
   border-style: none;
+  padding: 5px;
 }
 
 .slim-button:hover{

@@ -1,16 +1,14 @@
 {
-  "button": "right",
-  "startDelayEnabled": false,
-  "startDelayTime": "1365",
-  "clickType": "single",
-  "repeatEnabled": true,
-  "repeatCount": "5",
-  "alwaysOnTop": true,
-  "loop": true,
-  "interval": {
-    "hours": "1",
-    "minutes": "5",
-    "seconds": "59",
-    "milliseconds": "100"
-  }
+  "mouseButtonInput": "right",
+  "delayCheckbox": false,
+  "delayAmount": "1000",
+  "typeInput": "single",
+  "repeatSetTimesInput": false,
+  "repeatTimes": "1",
+  "alwaysOnTopCheckbox": false,
+  "loopInput": true,
+  "hoursInput": "0",
+  "minutesInput": "0",
+  "secondsInput": "0",
+  "millisecondsInput": "300"
 }

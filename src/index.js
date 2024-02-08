@@ -17,8 +17,10 @@ let holdMouseButton;
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 425,
-    height: 425,
+    width: 640,
+    height: 350,
+    minWidth: 640,
+    minHeight: 350,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
