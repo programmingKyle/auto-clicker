@@ -2,6 +2,28 @@ const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
 const path = require('path');
 const robot = require('robotjs');
 const fs = require('fs');
+const sqlite3 = require('sqlite3').verbose();
+const dbFilePath = 'database.db';
+const db = new sqlite3.Database(dbFilePath);
+
+db.run(`
+  CREATE TABLE IF NOT EXISTS media (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    mouseButtonInput TEXT,
+    delayCheckbox INTEGER,
+    delayAmount INTEGER,
+    typeInput TEXT,
+    repeatSetTimesInput INTEGER,
+    repeatTimes INTEGER,
+    alwaysOnTopCheckbox INTEGER,
+    loopInput INTEGER,
+    hoursInput INTEGER,
+    minutesInput INTEGER,
+    secondsInput INTEGER,
+    millisecondsInput INTEGER
+  )
+`);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -36,7 +58,7 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', () => {
+app.on('ready', async () => {
   checkOptions();
   createWindow();
 });
@@ -103,6 +125,10 @@ app.whenReady().then(() => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+
+
+
 function createDefaultOptions() {
   const settings = {
     mouseButtonInput: 'left',
