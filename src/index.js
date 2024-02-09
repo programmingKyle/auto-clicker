@@ -134,8 +134,26 @@ ipcMain.handle('database-handler', async (req, data) => {
     case 'Get':
       const profiles = await getProfiles();
       return profiles;
+    case 'Delete':
+      if (!data.id) return;
+      const confirmDelete = await deleteProfile(data.id);
+      return confirmDelete;
   }
 });
+
+async function deleteProfile(id) {
+  const sqlStatement = 'DELETE FROM profiles WHERE id = ?';
+  await new Promise((resolve, reject) => {
+    db.run(sqlStatement, [id], function (err) {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        resolve(this.changes); // Number of rows affected
+      }
+    });
+  });
+}
 
 async function getProfiles() {
   const sqlStatement = 'SELECT * FROM profiles';
