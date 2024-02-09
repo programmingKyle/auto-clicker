@@ -49,7 +49,14 @@ const inputIds = [
 inputIds.forEach((element) => {
     if (element) {
         element.addEventListener('change', () => {
-        handleInputChange(element);
+            handleInputChange(element);
+            if (profileSelected){
+                profileSelected = false;
+                selectedProfileText_el.textContent = 'No Profile Selected';
+                toggleEditProfileButton_el.style.display = 'none';
+                toggleDeleteProfileButton_el.style.display = 'none';     
+                selectedProfileDiv_el.classList.remove('active');   
+            }
         });
     }
 });
