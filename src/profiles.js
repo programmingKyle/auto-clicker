@@ -9,7 +9,6 @@ const profilesContent_el = document.getElementById('profilesContent');
 
 const selectedProfileDiv_el = document.getElementById('selectedProfileDiv');
 const selectedProfileText_el = document.getElementById('selectedProfileText');
-const toggleEditProfileButton_el = document.getElementById('toggleEditProfileButton');
 
 let selectedProfile = null;
 
