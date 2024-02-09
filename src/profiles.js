@@ -6,14 +6,29 @@ const addProfileContent_el = document.getElementById('addProfileContent');
 const addProfileCloseButton_el = document.getElementById('addProfileCloseButton');
 const addProfileInput_el = document.getElementById('addProfileInput');
 
+const profilesContent_el = document.getElementById('profilesContent');
+
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const results = await api.databaseHandler({request: 'Get'});
-        console.log(results);
+        await populateProfiles(results);
     } catch (error){
         console.error(error);
     }
 });
+
+async function populateProfiles(content){
+    content.forEach(element => {
+        const button = document.createElement('button');
+        button.textContent = element.title;
+        button.className = 'profiles-button';
+        profilesContent_el.append(button);
+
+        button.addEventListener('click', () => {
+            populateOptions(element);
+        })
+    });
+}
 
 toggleAddProfileButton_el.addEventListener('click', async () => {
     addProfileOverlay_el.style.display = 'flex';

@@ -55,7 +55,6 @@ inputIds.forEach((element) => {
 });
 
 function handleInputChange(inputElement) {
-    console.log(inputElement.checked);
     const inputId = inputElement.id;
     const inputValue = (inputElement.type === 'checkbox' || 
     inputElement.type === 'radio') ? inputElement.checked : inputElement.value;

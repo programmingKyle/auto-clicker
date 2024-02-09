@@ -1,5 +1,5 @@
 {
-  "mouseButtonInput": "right",
+  "mouseButtonInput": "left",
   "delayCheckbox": false,
   "delayAmount": "1000",
   "typeInput": "single",
@@ -10,5 +10,5 @@
   "hoursInput": "0",
   "minutesInput": "0",
   "secondsInput": "0",
-  "millisecondsInput": "300"
+  "millisecondsInput": "0"
 }
