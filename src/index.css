@@ -93,7 +93,7 @@ select {
 .right-side-grid {
   display: grid;
   text-align: center;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
   grid-gap: 5px;
   overflow: hidden;
 }
@@ -102,12 +102,18 @@ select {
   display: grid;
   align-items: start;
   grid-gap: 2px;
-  align-content: start;
   overflow: auto;
 }
 
 .profiles-button {
   margin-right: 5px;
+}
+
+.selected-profile-text {
+  background: #111111;
+  border-radius: 10px;
+  align-self: center;
+  padding: 5px 0px;
 }
 
 .click-interval-grid {
