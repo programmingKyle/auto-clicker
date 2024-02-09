@@ -100,7 +100,7 @@ select {
 
 .profiles-grid {
   display: grid;
-  align-items: start;
+  align-content: start;
   grid-gap: 2px;
   overflow: auto;
 }
