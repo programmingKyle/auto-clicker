@@ -9,15 +9,20 @@ const addProfileInput_el = document.getElementById('addProfileInput');
 const profilesContent_el = document.getElementById('profilesContent');
 
 document.addEventListener('DOMContentLoaded', async () => {
+    await getProfiles();
+});
+
+async function getProfiles(){
     try {
         const results = await api.databaseHandler({request: 'Get'});
         await populateProfiles(results);
     } catch (error){
         console.error(error);
     }
-});
+}
 
 async function populateProfiles(content){
+    profilesContent_el.innerHTML = '';
     content.forEach(element => {
         const button = document.createElement('button');
         button.textContent = element.title;
@@ -47,4 +52,6 @@ addProfileButton_el.addEventListener('click', async () => {
         optionValues.push({input, value});
     });
     await api.databaseHandler({request: 'Add', title: addProfileInput_el.value, optionValues});
+    addProfileOverlay_el.style.display = 'none';
+    await getProfiles();
 });
