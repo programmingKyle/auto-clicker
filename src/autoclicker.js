@@ -50,8 +50,8 @@ inputIds.forEach((element) => {
     if (element) {
         element.addEventListener('change', () => {
             handleInputChange(element);
-            if (profileSelected){
-                profileSelected = false;
+            if (selectedProfile !== null){
+                selectedProfile = null;
                 selectedProfileText_el.textContent = 'No Profile Selected';
                 toggleEditProfileButton_el.style.display = 'none';
                 toggleDeleteProfileButton_el.style.display = 'none';     

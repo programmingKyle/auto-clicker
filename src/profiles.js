@@ -10,9 +10,8 @@ const profilesContent_el = document.getElementById('profilesContent');
 const selectedProfileDiv_el = document.getElementById('selectedProfileDiv');
 const selectedProfileText_el = document.getElementById('selectedProfileText');
 const toggleEditProfileButton_el = document.getElementById('toggleEditProfileButton');
-const toggleDeleteProfileButton_el = document.getElementById('toggleDeleteProfileButton');
 
-let profileSelected = false;
+let selectedProfile = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
     await getProfiles();
@@ -40,7 +39,7 @@ async function populateProfiles(content){
             selectedProfileText_el.textContent = element.title;
             toggleEditProfileButton_el.style.display = 'grid';
             toggleDeleteProfileButton_el.style.display = 'grid';
-            profileSelected = true;
+            selectedProfile = {id: element.id, title: element.title};
             populateOptions(element);
         })
     });
