@@ -7,7 +7,7 @@ const dbFilePath = 'database.db';
 const db = new sqlite3.Database(dbFilePath);
 
 db.run(`
-  CREATE TABLE IF NOT EXISTS media (
+  CREATE TABLE IF NOT EXISTS profiles (
     id INTEGER PRIMARY KEY,
     title TEXT,
     mouseButtonInput TEXT,
@@ -139,8 +139,19 @@ ipcMain.handle('database-handler', (req, data) => {
 });
 
 function addProfile(title, data){
-  console.log(title);
-  console.log(data);
+  const valuesString = data.map(element => `'${element.input}'`).join(', ');
+  const sqlStatement = `INSERT INTO profiles (title, ${valuesString}) VALUES (?, ${Array(data.length).fill('?').join(', ')})`;
+  const values = [title, ...data.map(element => element.value)];
+
+  db.run(sqlStatement, values, function(err) {
+    if (err) {
+      console.error(err.message);
+    } else {
+      console.log('Row added to the profiles table');
+    }
+
+    db.close();
+  });
 }
 
 
