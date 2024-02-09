@@ -8,4 +8,6 @@ contextBridge.exposeInMainWorld('api', {
     backgroundHotkeys: (callback) => ipcRenderer.on('background-hotkeys', (event, data) => callback(data)),
 
     optionsHandler: (data) => ipcRenderer.invoke('options-handler', data),
+
+    databaseHandler: (data) => ipcRenderer.invoke('database-handler', data),
 });
