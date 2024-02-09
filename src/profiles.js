@@ -5,8 +5,12 @@ const addProfileOverlay_el = document.getElementById('addProfileOverlay');
 const addProfileContent_el = document.getElementById('addProfileContent');
 const addProfileCloseButton_el = document.getElementById('addProfileCloseButton');
 const addProfileInput_el = document.getElementById('addProfileInput');
-
 const profilesContent_el = document.getElementById('profilesContent');
+
+const selectedProfileDiv_el = document.getElementById('selectedProfileDiv');
+const selectedProfileText_el = document.getElementById('selectedProfileText');
+const toggleEditProfileButton_el = document.getElementById('toggleEditProfileButton');
+const toggleDeleteProfileButton_el = document.getElementById('toggleDeleteProfileButton');
 
 document.addEventListener('DOMContentLoaded', async () => {
     await getProfiles();
@@ -30,6 +34,10 @@ async function populateProfiles(content){
         profilesContent_el.append(button);
 
         button.addEventListener('click', () => {
+            selectedProfileDiv_el.classList.add('active');
+            selectedProfileText_el.textContent = element.title;
+            toggleEditProfileButton_el.style.display = 'grid';
+            toggleDeleteProfileButton_el.style.display = 'grid';
             populateOptions(element);
         })
     });

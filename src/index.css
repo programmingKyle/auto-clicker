@@ -109,6 +109,16 @@ select {
   margin-right: 5px;
 }
 
+.selected-profile-div {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+}
+
+.selected-profile-div.active {
+  grid-template-columns: auto 1fr auto;
+}
+
 .selected-profile-text {
   background: #111111;
   border-radius: 10px;
