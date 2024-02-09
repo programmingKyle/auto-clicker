@@ -143,17 +143,23 @@ ipcMain.handle('database-handler', async (req, data) => {
 
 async function deleteProfile(id) {
   const sqlStatement = 'DELETE FROM profiles WHERE id = ?';
-  await new Promise((resolve, reject) => {
-    db.run(sqlStatement, [id], function (err) {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(this.changes); // Number of rows affected
-      }
+  try {
+    await new Promise((resolve, reject) => {
+      db.run(sqlStatement, [id], function (err) {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
     });
-  });
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
+
 
 async function getProfiles() {
   const sqlStatement = 'SELECT * FROM profiles';

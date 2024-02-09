@@ -50,16 +50,20 @@ inputIds.forEach((element) => {
     if (element) {
         element.addEventListener('change', () => {
             handleInputChange(element);
-            if (selectedProfile !== null){
-                selectedProfile = null;
-                selectedProfileText_el.textContent = 'No Profile Selected';
-                toggleEditProfileButton_el.style.display = 'none';
-                toggleDeleteProfileButton_el.style.display = 'none';     
-                selectedProfileDiv_el.classList.remove('active');   
-            }
+            clearSelectedProfile();
         });
     }
 });
+
+function clearSelectedProfile(){
+    if (selectedProfile !== null){
+        selectedProfile = null;
+        selectedProfileText_el.textContent = 'No Profile Selected';
+        toggleEditProfileButton_el.style.display = 'none';
+        toggleDeleteProfileButton_el.style.display = 'none';     
+        selectedProfileDiv_el.classList.remove('active');   
+    }
+}
 
 function handleInputChange(inputElement) {
     const inputId = inputElement.id;
@@ -67,9 +71,6 @@ function handleInputChange(inputElement) {
     inputElement.type === 'radio') ? inputElement.checked : inputElement.value;
     api.optionsHandler({ request: 'save', inputId, inputValue });
 }
-
-  
-
 
 function toggleButtons(){
     if (startButton_el.style.display !== 'none'){
