@@ -125,18 +125,31 @@ app.whenReady().then(() => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-ipcMain.handle('database-handler', (req, data) => {
+ipcMain.handle('database-handler', async (req, data) => {
   if (!data || !data.request) return;
   switch(data.request){
     case 'Add':
       addProfile(data.title, data.optionValues);
-      return;
-    case 'Get':
-      return;
-    case 'Delete':
       break;
+    case 'Get':
+      const profiles = await getProfiles();
+      return profiles;
   }
 });
+
+async function getProfiles() {
+  const sqlStatement = 'SELECT * FROM profiles';
+
+  return await new Promise((resolve, reject) => {
+    db.all(sqlStatement, [], (error, rows) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+}
 
 function addProfile(title, data){
   const valuesString = data.map(element => `'${element.input}'`).join(', ');
@@ -149,8 +162,6 @@ function addProfile(title, data){
     } else {
       console.log('Row added to the profiles table');
     }
-
-    db.close();
   });
 }
 
@@ -175,8 +186,6 @@ function createDefaultOptions() {
 
   const jsonString = JSON.stringify(settings, null, 2);
   fs.writeFileSync('options.json', jsonString);
-
-  console.log('Default settings file created successfully.');
 }
 
 ipcMain.handle('start-autoclick', (req, data) => {

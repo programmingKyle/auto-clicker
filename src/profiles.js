@@ -6,6 +6,15 @@ const addProfileContent_el = document.getElementById('addProfileContent');
 const addProfileCloseButton_el = document.getElementById('addProfileCloseButton');
 const addProfileInput_el = document.getElementById('addProfileInput');
 
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const results = await api.databaseHandler({request: 'Get'});
+        console.log(results);
+    } catch (error){
+        console.error(error);
+    }
+});
+
 toggleAddProfileButton_el.addEventListener('click', async () => {
     addProfileOverlay_el.style.display = 'flex';
     addProfileInput_el.value = '';
