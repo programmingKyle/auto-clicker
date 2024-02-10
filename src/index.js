@@ -136,13 +136,20 @@ ipcMain.handle('database-handler', async (req, data) => {
       return profiles;
     case 'Delete':
       if (!data.id) return;
-      const confirmDelete = await deleteProfile(data.id);
-      return confirmDelete;
+      try {
+        await deleteProfile(data.id);
+        return true;
+      } catch (err){
+        return false;
+      }
     case 'Edit':
-      console.log(data);
       if (!data.id || !data.title) return;
-      const confirmEdit = await editTitle(data.id, data.title);
-      return confirmEdit;
+      try {
+        await editTitle(data.id, data.title);
+        return true;
+      } catch(err) {
+        return false;
+      }
   }
 });
 

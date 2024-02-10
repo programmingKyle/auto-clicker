@@ -16,5 +16,12 @@ backEditProfileButton_el.addEventListener('click', () => {
 
 editProfileButton_el.addEventListener('click', async () => {
     const result = await api.databaseHandler({request: 'Edit', id: selectedProfile.id, title: editProfileInput_el.value});
-    console.log(result);
+    if (result){
+        await getProfiles();
+        selectedProfileText_el.textContent = editProfileInput_el.value;
+        editProfileOverlay_el.style.display = 'none';
+        selectedProfile.title = editProfileInput_el.value;
+    } else {
+        console.error('Error editing profile');
+    }
 });

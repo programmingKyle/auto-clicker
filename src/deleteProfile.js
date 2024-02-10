@@ -16,7 +16,6 @@ backDeleteButton_el.addEventListener('click', () => {
 
 deleteProfileButton_el.addEventListener('click', async () => {
     const result = await api.databaseHandler({request: 'Delete', id: selectedProfile.id});
-    console.log(result);
     if (result){
         deleteProfileOverlay_el.style.display = 'none';
         clearSelectedProfile();
