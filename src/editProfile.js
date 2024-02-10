@@ -5,10 +5,25 @@ const editProfileInput_el = document.getElementById('editProfileInput');
 const editProfileButton_el = document.getElementById('editProfileButton');
 const backEditProfileButton_el = document.getElementById('backEditProfileButton');
 
+let editMode;
+
 toggleEditProfileButton_el.addEventListener('click', () => {
-    editProfileOverlay_el.style.display = 'flex';
-    editProfileInput_el.value = selectedProfile.title;
+    toggleEditMode();
+    //editProfileOverlay_el.style.display = 'flex';
+    //editProfileInput_el.value = selectedProfile.title;
 });
+
+function toggleEditMode(){
+    if (!editMode){
+        toggleEditProfileButton_el.classList.remove('fa-edit');
+        toggleEditProfileButton_el.classList.add('fa-save');
+        editMode = true;
+    } else {
+        toggleEditProfileButton_el.classList.remove('fa-save');
+        toggleEditProfileButton_el.classList.add('fa-edit');
+        editMode = false;
+    }
+}
 
 backEditProfileButton_el.addEventListener('click', () => {
     editProfileOverlay_el.style.display = 'none';
