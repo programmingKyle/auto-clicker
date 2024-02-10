@@ -14,6 +14,7 @@ backEditProfileButton_el.addEventListener('click', () => {
     editProfileOverlay_el.style.display = 'none';
 });
 
-editProfileButton_el.addEventListener('click', () => {
-    console.log('Confirm Edit');
+editProfileButton_el.addEventListener('click', async () => {
+    const result = await api.databaseHandler({request: 'Edit', id: selectedProfile.id, title: editProfileInput_el.value});
+    console.log(result);
 });

@@ -138,28 +138,42 @@ ipcMain.handle('database-handler', async (req, data) => {
       if (!data.id) return;
       const confirmDelete = await deleteProfile(data.id);
       return confirmDelete;
+    case 'Edit':
+      console.log(data);
+      if (!data.id || !data.title) return;
+      const confirmEdit = await editTitle(data.id, data.title);
+      return confirmEdit;
   }
 });
 
-async function deleteProfile(id) {
-  const sqlStatement = 'DELETE FROM profiles WHERE id = ?';
-  try {
-    await new Promise((resolve, reject) => {
-      db.run(sqlStatement, [id], function (err) {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
+async function editTitle(id, title) {
+  const sqlStatement = 'UPDATE profiles SET title = ? WHERE id = ?';
+  return new Promise((resolve, reject) => {
+    db.run(sqlStatement, [title, id], (err) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        resolve();
+      }
     });
-    return true;
-  } catch (error) {
-    return false;
-  }
+  });
 }
 
+async function deleteProfile(id) {
+  const sqlStatement = 'DELETE FROM profiles WHERE id = ?';
+
+  return new Promise((resolve, reject) => {
+    db.run(sqlStatement, [id], function (err) {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        resolve(this.changes > 0); // Resolve with true if rows were affected, false otherwise
+      }
+    });
+  });
+}
 
 async function getProfiles() {
   const sqlStatement = 'SELECT * FROM profiles';
