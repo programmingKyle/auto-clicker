@@ -50,7 +50,9 @@ inputIds.forEach((element) => {
     if (element) {
         element.addEventListener('change', () => {
             handleInputChange(element);
-            clearSelectedProfile();
+            if (!editMode){
+                clearSelectedProfile();
+            }
         });
     }
 });

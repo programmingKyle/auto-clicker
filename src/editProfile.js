@@ -15,6 +15,16 @@ toggleEditProfileButton_el.addEventListener('click', () => {
 
 function toggleEditMode(){
     if (!editMode){
+        const previousValues = () => {
+            let values = [];
+            inputIds.forEach(element => {
+                const value = (element.type === 'checkbox' || element.type ==='radio') ?
+                element.checked : element. value;
+                values.push({ id: element.id, value: value });
+            });
+            return values;
+        }
+        console.log(previousValues());
         toggleEditProfileButton_el.classList.remove('fa-edit');
         toggleEditProfileButton_el.classList.add('fa-save');
         editMode = true;
