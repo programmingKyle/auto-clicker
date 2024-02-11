@@ -72,7 +72,7 @@ toggleEditBackButton_el.addEventListener('click', () => {
             targetElement.value = element.value;
         }
     });
-
+    toggleEditTitle();
     toggleEditMode();
     currentOptions = [];
 });
