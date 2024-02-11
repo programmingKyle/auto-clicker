@@ -10,4 +10,6 @@ contextBridge.exposeInMainWorld('api', {
     optionsHandler: (data) => ipcRenderer.invoke('options-handler', data),
 
     databaseHandler: (data) => ipcRenderer.invoke('database-handler', data),
+
+    updateProfile: (data) => ipcRenderer.invoke('update-profile', data),
 });

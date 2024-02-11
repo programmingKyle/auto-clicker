@@ -11,8 +11,14 @@ let editMode;
 let editTitle;
 let currentOptions = [];
 
-toggleEditProfileButton_el.addEventListener('click', () => {
-    toggleEditMode();
+toggleEditProfileButton_el.addEventListener('click', async () => {
+    if (!editMode){
+        await toggleEditMode();
+    } else {
+        getCurrentOptions();
+        await api.updateProfile({id: selectedProfile.id, title: editProfileTitleInput_el.value, options: currentOptions});
+        await toggleEditMode();
+    }
     //editProfileOverlay_el.style.display = 'flex';
     //editProfileInput_el.value = selectedProfile.title;
 });
@@ -44,15 +50,16 @@ function toggleEditTitle(){
     }
 }
 
-function toggleEditMode(){
+async function toggleEditMode(){
+    getCurrentOptions();
     if (!editMode){
-        getCurrentOptions();
         toggleEditProfileButton_el.classList.remove('fa-edit');
         toggleEditProfileButton_el.classList.add('fa-save');
         selectedProfileDiv_el.classList.add('edit');
         toggleEditBackButton_el.style.display = 'grid';
         editMode = true;
     } else {
+        getCurrentOptions();
         toggleEditProfileButton_el.classList.remove('fa-save');
         toggleEditProfileButton_el.classList.add('fa-edit');
         selectedProfileDiv_el.classList.remove('edit');
@@ -77,6 +84,7 @@ toggleEditBackButton_el.addEventListener('click', () => {
     currentOptions = [];
 });
 
+/*
 backEditProfileButton_el.addEventListener('click', () => {
     editProfileOverlay_el.style.display = 'none';
 });
@@ -92,3 +100,4 @@ editProfileButton_el.addEventListener('click', async () => {
         console.error('Error editing profile');
     }
 });
+*/
