@@ -5,8 +5,10 @@ const editProfileInput_el = document.getElementById('editProfileInput');
 const editProfileButton_el = document.getElementById('editProfileButton');
 const backEditProfileButton_el = document.getElementById('backEditProfileButton');
 const toggleEditBackButton_el = document.getElementById('toggleEditBackButton');
+const editProfileTitleInput_el = document.getElementById('editProfileTitleInput');
 
 let editMode;
+let editTitle;
 let currentOptions = [];
 
 toggleEditProfileButton_el.addEventListener('click', () => {
@@ -23,10 +25,28 @@ function getCurrentOptions(){
     });
 }
 
+selectedProfileText_el.addEventListener('click', () => {
+    if (editMode){
+        toggleEditTitle();
+    }
+});
+
+function toggleEditTitle(){
+    if (!editTitle){
+        editTitle = true;
+        selectedProfileText_el.style.display = 'none';
+        editProfileTitleInput_el.style.display = 'grid';
+        editProfileTitleInput_el.value = selectedProfile.title;
+    } else {
+        editTitle = false;
+        selectedProfileText_el.style.display = 'grid';
+        editProfileTitleInput_el.style.display = 'none';
+    }
+}
+
 function toggleEditMode(){
     if (!editMode){
         getCurrentOptions();
-        console.log(currentOptions);
         toggleEditProfileButton_el.classList.remove('fa-edit');
         toggleEditProfileButton_el.classList.add('fa-save');
         selectedProfileDiv_el.classList.add('edit');
@@ -47,8 +67,6 @@ toggleEditBackButton_el.addEventListener('click', () => {
         const targetElement = document.getElementById(elementVar);
 
         if (element.type === 'checkbox' || element.type === 'radio') {
-            console.log(targetElement);
-            console.log(`Should be: ${element.value}`);
             targetElement.checked = element.value;
         } else {
             targetElement.value = element.value;
