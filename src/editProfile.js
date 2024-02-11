@@ -15,15 +15,20 @@ toggleEditProfileButton_el.addEventListener('click', async () => {
     if (!editMode){
         await toggleEditMode();
     } else {
+        const titleEdit = editProfileTitleInput_el.value === '' ? selectedProfile.title : editProfileTitleInput_el.value;
         getCurrentOptions();
-        await api.updateProfile({id: selectedProfile.id, title: editProfileTitleInput_el.value, options: currentOptions});
+        await api.updateProfile({id: selectedProfile.id, title: titleEdit, options: currentOptions});
+        selectedProfileText_el.textContent = titleEdit
         await toggleEditMode();
+        toggleEditTitle();
+        getProfiles();
     }
     //editProfileOverlay_el.style.display = 'flex';
     //editProfileInput_el.value = selectedProfile.title;
 });
 
 function getCurrentOptions(){
+    currentOptions = [];
     inputIds.forEach(element => {
         const value = (element.type === 'checkbox' || element.type ==='radio') ?
         element.checked : element.value;

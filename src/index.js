@@ -125,19 +125,37 @@ app.whenReady().then(() => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-ipcMain.handle('update-profile', (req, data) => {
+ipcMain.handle('update-profile', async (req, data) => {
   if (!data) return;
   const formatOptions = convertOptionsFormat(data.options);
+  await updateProfileOptions(data.id, data.title, data.options);
   saveOptionsToFile(formatOptions);
 });
 
+async function updateProfileOptions(id, title, options) {
+  const setStatements = options.map((option) => `${option.id} = ?`).join(', ');
+  const values = options.map((option) => option.value);
+  const sqlStatement = `UPDATE profiles SET ${setStatements}, title = ? WHERE id = ?`;
+  return new Promise((resolve, reject) => {
+    values.push(title);
+    values.push(id);
+
+    db.run(sqlStatement, values, (err) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+
 function convertOptionsFormat(existingOptions) {
   const newFormat = {};
-
   existingOptions.forEach(({ id, value }) => {
       newFormat[id] = value;
   });
-
   return newFormat;
 }
 
@@ -158,30 +176,8 @@ ipcMain.handle('database-handler', async (req, data) => {
       } catch (err){
         return false;
       }
-    case 'Edit':
-      if (!data.id || !data.title) return;
-      try {
-        await editTitle(data.id, data.title);
-        return true;
-      } catch(err) {
-        return false;
-      }
   }
 });
-
-async function editTitle(id, title) {
-  const sqlStatement = 'UPDATE profiles SET title = ? WHERE id = ?';
-  return new Promise((resolve, reject) => {
-    db.run(sqlStatement, [title, id], (err) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
-}
 
 async function deleteProfile(id) {
   const sqlStatement = 'DELETE FROM profiles WHERE id = ?';
