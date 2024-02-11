@@ -119,6 +119,10 @@ select {
   grid-template-columns: auto 1fr auto;
 }
 
+.selected-profile-div.active.edit {
+  grid-template-columns: auto auto 1fr auto;
+}
+
 .selected-profile-text {
   background: #111111;
   border-radius: 10px;

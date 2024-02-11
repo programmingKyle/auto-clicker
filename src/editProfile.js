@@ -4,8 +4,10 @@ const editProfileContent_el = document.getElementById('editProfileContent');
 const editProfileInput_el = document.getElementById('editProfileInput');
 const editProfileButton_el = document.getElementById('editProfileButton');
 const backEditProfileButton_el = document.getElementById('backEditProfileButton');
+const toggleEditBackButton_el = document.getElementById('toggleEditBackButton');
 
 let editMode;
+let currentOptions = [];
 
 toggleEditProfileButton_el.addEventListener('click', () => {
     toggleEditMode();
@@ -13,27 +15,49 @@ toggleEditProfileButton_el.addEventListener('click', () => {
     //editProfileInput_el.value = selectedProfile.title;
 });
 
+function getCurrentOptions(){
+    inputIds.forEach(element => {
+        const value = (element.type === 'checkbox' || element.type ==='radio') ?
+        element.checked : element.value;
+        currentOptions.push({ id: element.id, value: value, type: element.type });
+    });
+}
+
 function toggleEditMode(){
     if (!editMode){
-        const previousValues = () => {
-            let values = [];
-            inputIds.forEach(element => {
-                const value = (element.type === 'checkbox' || element.type ==='radio') ?
-                element.checked : element. value;
-                values.push({ id: element.id, value: value });
-            });
-            return values;
-        }
-        console.log(previousValues());
+        getCurrentOptions();
+        console.log(currentOptions);
         toggleEditProfileButton_el.classList.remove('fa-edit');
         toggleEditProfileButton_el.classList.add('fa-save');
+        selectedProfileDiv_el.classList.add('edit');
+        toggleEditBackButton_el.style.display = 'grid';
         editMode = true;
     } else {
         toggleEditProfileButton_el.classList.remove('fa-save');
         toggleEditProfileButton_el.classList.add('fa-edit');
+        selectedProfileDiv_el.classList.remove('edit');
+        toggleEditBackButton_el.style.display = 'none';
         editMode = false;
     }
 }
+
+toggleEditBackButton_el.addEventListener('click', () => {
+    currentOptions.forEach(element => {
+        const elementVar = element.id;
+        const targetElement = document.getElementById(elementVar);
+
+        if (element.type === 'checkbox' || element.type === 'radio') {
+            console.log(targetElement);
+            console.log(`Should be: ${element.value}`);
+            targetElement.checked = element.value;
+        } else {
+            targetElement.value = element.value;
+        }
+    });
+
+    toggleEditMode();
+    currentOptions = [];
+});
 
 backEditProfileButton_el.addEventListener('click', () => {
     editProfileOverlay_el.style.display = 'none';

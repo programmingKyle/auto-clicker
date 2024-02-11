@@ -49,8 +49,8 @@ const inputIds = [
 inputIds.forEach((element) => {
     if (element) {
         element.addEventListener('change', () => {
-            handleInputChange(element);
             if (!editMode){
+                handleInputChange(element);
                 clearSelectedProfile();
             }
         });
