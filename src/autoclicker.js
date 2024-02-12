@@ -45,10 +45,25 @@ const inputIds = [
     alwaysOnTopCheckbox_el, loopInput_el, hoursInput_el,
     minutesInput_el, secondsInput_el, millisecondsInput_el,
 ];
+
+const intervalInputs = [hoursInput_el, minutesInput_el, secondsInput_el, millisecondsInput_el, delayAmount_el, repeatTimes_el];
   
 inputIds.forEach((element) => {
     if (element) {
         element.addEventListener('change', () => {
+            if (intervalInputs.includes(element) && element.value.toString().length > 6){
+                element.value = element.value.slice(0, 6);
+            }
+            if (!editMode){
+                handleInputChange(element);
+                clearSelectedProfile();
+            }
+        });
+
+        element.addEventListener('input', () => {
+            if (intervalInputs.includes(element) && element.value.toString().length > 6) {
+                element.value = element.value.slice(0, 6);
+            }
             if (!editMode){
                 handleInputChange(element);
                 clearSelectedProfile();
