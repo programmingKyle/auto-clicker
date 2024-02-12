@@ -12,4 +12,6 @@ contextBridge.exposeInMainWorld('api', {
     databaseHandler: (data) => ipcRenderer.invoke('database-handler', data),
 
     updateProfile: (data) => ipcRenderer.invoke('update-profile', data),
+
+    frameHandler: (data) => ipcRenderer.invoke('frame-handler', data),
 });

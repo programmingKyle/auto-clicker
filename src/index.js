@@ -125,6 +125,18 @@ app.whenReady().then(() => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+ipcMain.handle('frame-handler', (req, data) => {
+  if (!data || !data.request) return;
+  switch (data.request){
+    case 'minimize':
+      mainWindow.minimize();
+      break;
+    case 'exit':
+      mainWindow.close();
+      break;
+  }
+});
+
 ipcMain.handle('update-profile', async (req, data) => {
   if (!data) return;
   const formatOptions = convertOptionsFormat(data.options);

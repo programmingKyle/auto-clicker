@@ -13,8 +13,8 @@
           <h5 id="deleteSelectedProfileText" style="margin: 10px 0px;" class="selected-profile-text">Selected Profile</h5>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 5px;">
-          <button id="deleteProfileButton">Confirm</button>
-          <button id="backDeleteButton">Back</button>
+          <button class="user-button" id="deleteProfileButton">Confirm</button>
+          <button class="user-button" id="backDeleteButton">Back</button>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
         </div>
         <input id="addProfileInput" type="text" placeholder="Input Title" style="text-align: center;">
         <div style="display: grid;">
-          <button id="addProfileButton">Add</button>
+          <button class="input-button" id="addProfileButton">Add</button>
         </div>
       </div>
     </div>
@@ -39,7 +39,6 @@
       <div class="frame-grid">
         <h3 style="margin-left: 10px; color: white; align-self: center;">Auto Clicker</h3>
         <button id="minimizeButton" class="fa fa-window-minimize"></button>
-        <button id="maximizeButton" class="fa fa-window-maximize"></button>
         <button id="exitButton" class="fa-solid fa-power-off"></button>
       </div>
 
@@ -109,8 +108,8 @@
           </div>
     
           <div class="buttons-grid">
-            <button id="startButton">Start [F9]</button>
-            <button id="stopButton" style="display: none">Stop [F9]</button>
+            <button class="input-button" id="startButton">Start [F9]</button>
+            <button class="input-button" id="stopButton" style="display: none">Stop [F9]</button>
           </div>  
     
         </div>
@@ -136,4 +135,5 @@
   <script src="profiles.js"></script>
   <script src="deleteProfile.js"></script>
   <script src="editProfile.js"></script>
+  <script src="frame.js"></script>
 </html>
