@@ -15,17 +15,23 @@ toggleEditProfileButton_el.addEventListener('click', async () => {
     if (!editMode){
         await toggleEditMode();
     } else {
-        const titleEdit = editProfileTitleInput_el.value === '' ? selectedProfile.title : editProfileTitleInput_el.value;
-        getCurrentOptions();
-        await api.updateProfile({id: selectedProfile.id, title: titleEdit, options: currentOptions});
-        selectedProfileText_el.textContent = titleEdit
-        await toggleEditMode();
-        toggleEditTitle();
-        getProfiles();
+        if (editProfileTitleInput_el.value.toString().length === 0){
+            editProfileTitleInput_el.classList.add('error');
+        } else {
+            saveEditProfile();
+        }
     }
-    //editProfileOverlay_el.style.display = 'flex';
-    //editProfileInput_el.value = selectedProfile.title;
 });
+
+async function saveEditProfile(){
+    const titleEdit = editProfileTitleInput_el.value === '' ? selectedProfile.title : editProfileTitleInput_el.value;
+    getCurrentOptions();
+    await api.updateProfile({id: selectedProfile.id, title: titleEdit, options: currentOptions});
+    selectedProfileText_el.textContent = titleEdit
+    await toggleEditMode();
+    toggleEditTitle();
+    getProfiles();
+}
 
 function getCurrentOptions(){
     currentOptions = [];
@@ -89,20 +95,6 @@ toggleEditBackButton_el.addEventListener('click', () => {
     currentOptions = [];
 });
 
-/*
-backEditProfileButton_el.addEventListener('click', () => {
-    editProfileOverlay_el.style.display = 'none';
-});
-
-editProfileButton_el.addEventListener('click', async () => {
-    const result = await api.databaseHandler({request: 'Edit', id: selectedProfile.id, title: editProfileInput_el.value});
-    if (result){
-        await getProfiles();
-        selectedProfileText_el.textContent = editProfileInput_el.value;
-        editProfileOverlay_el.style.display = 'none';
-        selectedProfile.title = editProfileInput_el.value;
-    } else {
-        console.error('Error editing profile');
-    }
-});
-*/
+editProfileTitleInput_el.addEventListener('click', () => {
+    removeError(editProfileInput_el);
+})

@@ -51,7 +51,7 @@ toggleAddProfileButton_el.addEventListener('click', async () => {
 
 addProfileCloseButton_el.addEventListener('click', () => {
     addProfileOverlay_el.style.display = 'none';
-    removeError();
+    removeError(addProfileInput_el);
 });
 
 addProfileButton_el.addEventListener('click', async () => {
@@ -71,11 +71,11 @@ addProfileButton_el.addEventListener('click', async () => {
 });
 
 addProfileInput_el.addEventListener('click', () => {
-    removeError();
+    removeError(addProfileInput_el);
 })
 
-function removeError(){
-    if (addProfileInput_el.classList.contains('error')){
-        addProfileInput_el.classList.remove('error');
+function removeError(input){
+    if (input.classList.contains('error')){
+        input.classList.remove('error');
     }
 }
