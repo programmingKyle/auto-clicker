@@ -51,16 +51,31 @@ toggleAddProfileButton_el.addEventListener('click', async () => {
 
 addProfileCloseButton_el.addEventListener('click', () => {
     addProfileOverlay_el.style.display = 'none';
+    removeError();
 });
 
 addProfileButton_el.addEventListener('click', async () => {
-    let optionValues = [];
-    inputIds.forEach(element => {
-        const input = element.id;
-        const value = (element.type === 'checkbox' || element.type === 'radio') ? element.checked : element.value;
-        optionValues.push({input, value});
-    });
-    await api.databaseHandler({request: 'Add', title: addProfileInput_el.value, optionValues});
-    addProfileOverlay_el.style.display = 'none';
-    await getProfiles();
+    if (addProfileInput_el.value.toString().length === 0){
+        addProfileInput_el.classList.add('error');
+    } else {
+        let optionValues = [];
+        inputIds.forEach(element => {
+            const input = element.id;
+            const value = (element.type === 'checkbox' || element.type === 'radio') ? element.checked : element.value;
+            optionValues.push({input, value});
+        });
+        await api.databaseHandler({request: 'Add', title: addProfileInput_el.value, optionValues});
+        addProfileOverlay_el.style.display = 'none';
+        await getProfiles();    
+    }
 });
+
+addProfileInput_el.addEventListener('click', () => {
+    removeError();
+})
+
+function removeError(){
+    if (addProfileInput_el.classList.contains('error')){
+        addProfileInput_el.classList.remove('error');
+    }
+}
