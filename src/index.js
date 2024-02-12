@@ -41,8 +41,8 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 640,
     height: 350,
-    minWidth: 640,
-    minHeight: 350,
+    resizable: false,
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
