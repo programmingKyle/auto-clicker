@@ -1,8 +1,8 @@
 {
   "name": "auto-clicker",
-  "productName": "auto-clicker",
+  "productName": "Auto Clicker",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Effortlessly automate mouse clicks with the convenience of saving profiles.",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",

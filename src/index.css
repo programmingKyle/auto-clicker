@@ -124,8 +124,13 @@ select {
 }
 
 .profiles-button {
-  margin-right: 5px;
+  margin: 0px 5px;
   padding: 12px 0px;
+}
+
+.profiles-button:hover {
+  background-color: #7C90DB;
+  color: black;
 }
 
 .selected-profile-div {
@@ -223,10 +228,11 @@ p {
   padding: 20px 0px;
   border-style: none;
   color: black;
+  font-weight: 600;
 }
 
 .input-button:hover{
-  background-color: #889ADE;
+  background-color: #94a6e7;
 }
 
 .project-button {
